@@ -12,6 +12,7 @@ class ESP32Can : public canbus::Canbus {
  public:
   void set_rx(int rx) { rx_ = rx; }
   void set_tx(int tx) { tx_ = tx; }
+  void set_controller_id(CanClock controller_id) { this->controller_id_ = controller_id; };
   ESP32Can(){};
 
  protected:
@@ -21,6 +22,7 @@ class ESP32Can : public canbus::Canbus {
 
   int rx_{-1};
   int tx_{-1};
+  int controller_id_{0};
 };
 
 }  // namespace esp32_can

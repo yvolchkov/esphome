@@ -25,6 +25,8 @@ esp32_can = esp32_can_ns.class_("ESP32Can", CanbusComponent)
 # The supported bit rates differ between ESP32 variants.
 # See ESP-IDF Programming Guide --> API Reference --> Two-Wire Automotive Interface (TWAI)
 
+CONF_CONTROLLER_ID = "controller_id"
+
 CAN_SPEEDS_ESP32 = {
     "25KBPS": CanSpeed.CAN_25KBPS,
     "50KBPS": CanSpeed.CAN_50KBPS,
@@ -60,7 +62,6 @@ CAN_SPEEDS = {
     VARIANT_ESP32H2: CAN_SPEEDS_ESP32_H2,
 }
 
-
 def validate_bit_rate(value):
     variant = get_esp32_variant()
     if variant not in CAN_SPEEDS:
@@ -70,11 +71,11 @@ def validate_bit_rate(value):
         raise cv.Invalid(f"Bit rate {value} is not supported on {variant}")
     return cv.enum(CAN_SPEEDS[variant])(value)
 
-
 CONFIG_SCHEMA = canbus.CANBUS_SCHEMA.extend(
     {
         cv.GenerateID(): cv.declare_id(esp32_can),
         cv.Optional(CONF_BIT_RATE, default="125KBPS"): validate_bit_rate,
+        cv.Optional(CONF_CONTROLLER_ID, default=0): cv.int_range(min=0, max=1),
         cv.Required(CONF_RX_PIN): pins.internal_gpio_input_pin_number,
         cv.Required(CONF_TX_PIN): pins.internal_gpio_output_pin_number,
     }
