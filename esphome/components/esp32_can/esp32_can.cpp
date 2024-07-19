@@ -71,9 +71,9 @@ static bool get_bitrate(canbus::CanSpeed bitrate, twai_timing_config_t *t_config
 }
 
 bool ESP32Can::setup_internal() {
-  twai_handle_t twai_bus_ = twai_bus_0;
+  twai_handle_t twai_bus_ = &twai_bus_0;
 #if defined(USE_ESP32_VARIANT_ESP32C6)
-  if(this->controller_id_ == 1) twai_bus_ = twai_bus_1;
+  if(this->controller_id_ == 1) twai_bus_ = &twai_bus_1;
 #endif
 
   twai_general_config_t g_config =
@@ -105,9 +105,9 @@ bool ESP32Can::setup_internal() {
 }
 
 canbus::Error ESP32Can::send_message(struct canbus::CanFrame *frame) {
-  twai_handle_t twai_bus_ = twai_bus_0;
+  twai_handle_t twai_bus_ = &twai_bus_0;
 #if defined(USE_ESP32_VARIANT_ESP32C6)
-  if(this->controller_id_ == 1) twai_bus_ = twai_bus_1;
+  if(this->controller_id_ == 1) twai_bus_ = &twai_bus_1;
 #endif
 
   if (frame->can_data_length_code > canbus::CAN_MAX_DATA_LENGTH) {
@@ -139,9 +139,9 @@ canbus::Error ESP32Can::send_message(struct canbus::CanFrame *frame) {
 }
 
 canbus::Error ESP32Can::read_message(struct canbus::CanFrame *frame) {
-  twai_handle_t twai_bus_ = twai_bus_0;
+  twai_handle_t twai_bus_ = &twai_bus_0;
 #if defined(USE_ESP32_VARIANT_ESP32C6)
-  if(this->controller_id_ == 1) twai_bus_ = twai_bus_1;
+  if(this->controller_id_ == 1) twai_bus_ = &twai_bus_1;
 #endif
   twai_message_t message;
 
