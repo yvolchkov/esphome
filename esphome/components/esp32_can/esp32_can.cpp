@@ -13,6 +13,7 @@ namespace esphome {
 namespace esp32_can {
 
 static const char *const TAG = "esp32_can";
+static twai_handle_t twai_bus_0;
 
 static bool get_bitrate(canbus::CanSpeed bitrate, twai_timing_config_t *t_config) {
   switch (bitrate) {
@@ -67,7 +68,6 @@ static bool get_bitrate(canbus::CanSpeed bitrate, twai_timing_config_t *t_config
 }
 
 bool ESP32Can::setup_internal() {
-  twai_handle_t twai_bus_0;
   twai_general_config_t g_config =
       TWAI_GENERAL_CONFIG_DEFAULT((gpio_num_t) this->tx_, (gpio_num_t) this->rx_, TWAI_MODE_NORMAL);
   twai_filter_config_t f_config = TWAI_FILTER_CONFIG_ACCEPT_ALL();
